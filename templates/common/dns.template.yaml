@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: '(qs-1nltbq5f3) OpenShift+VPC, License: Apache 2.0 (Please do not remove)
+  April, 6, 2018'
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: DNS Configuration
+        Parameters:
+          - DomainName
+          - HostedZoneID
+          - SubDomainPrefix
+    ParameterLabels:
+      HostedZoneID:
+        default: Route 53 Hosted Zone ID
+      SubDomainPrefix:
+        default: Subdomain Prefix
+      DomainName:
+        default: Domain Name
+Parameters:
+  HostedZoneID:
+    Description: 'Required: Route 53 Hosted Zone ID to use.'
+    Type: String
+    AllowedPattern: ".+"
+    Default: "Required"
+  DomainName:
+    Description: "Required: domain name configured for the cluster."
+    Type: String
+    AllowedPattern: ".+"
+    Default: "Required"
+  SubDomainPrefix:
+    Default: ''
+    Description: 'OPTIONAL: Subdomain to use, if left blank DomainName will be used
+      without a prefix. If you specify this you must also specify DomainName and HostedZoneID'
+    Type: String
+Resources:
+  Route53HostedSubdomainZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Sub '${SubDomainPrefix}.${DomainName}'
+  Route53SubdomainNS:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref 'HostedZoneID'
+      Name: !Sub '${SubDomainPrefix}.${DomainName}'
+      ResourceRecords: !GetAtt 'Route53HostedSubdomainZone.NameServers'
+      Type: NS
+      TTL: 600
+Outputs:
+  Route53HostedSubdomainZone:
+    Description: "The Zone ID of the Hosted Subdomain"
+    Value: !Ref Route53HostedSubdomainZone

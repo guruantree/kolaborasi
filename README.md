@@ -1,19 +1,12 @@
 # quickstart-redhat-openshift
-## Red Hat OpenShift Container Platform on the AWS Cloud
 
+## Red Hat OpenShift Container Platform on the AWS Cloud
 
 This Quick Start deploys Red Hat OpenShift Container Platform on the AWS Cloud in a highly available configuration.
 
 Red Hat OpenShift Container Platform is a platform as a service (PaaS) solution that is based on Docker-formatted Linux containers,  Kubernetes orchestration, and the Red Hat Enterprise Linux (RHEL) operating system.
 
 The Quick Start includes AWS CloudFormation templates that build the AWS infrastructure using AWS best practices, and then pass that environment to Ansible playbooks to build out the OpenShift environment. The deployment provisions OpenShift master instances, etcd instances, and node instances in a virtual private cloud (VPC) across three Availability Zones.
-
-The Quick Start offers two deployment options:
-
-- Deploying OpenShift Container Platform into a new VPC
-- Deploying OpenShift Container Platform into an existing VPC
-
-You can also use the AWS CloudFormation templates as a starting point for your own implementation.
 
 ![Quick Start architecture for OpenShift Container Platform on AWS](https://d0.awsstatic.com/partner-network/QuickStart/datasheets/redhat-openshift-on-aws-architecture.png)
 
@@ -22,7 +15,21 @@ For architectural details, best practices, step-by-step instructions, and custom
 To post feedback, submit feature ideas, or report bugs, use the **Issues** section of this GitHub repo.
 If you'd like to submit code for this Quick Start, please review the [AWS Quick Start Contributor's Kit](https://aws-quickstart.github.io/).
 
-## Usage
+## OpenShift 4.x Usage
+Deploying an OpenShift 4 cluster requires a RedHat Pull Secret to access RedHat's container registry.
+
+If you have a Red Hat account, you can log into your account to generate a new
+Pull Secret. This will require an active subscription for Red Hat OpenShift.
+
+For a standard OpenShift 4.x deployment, you must set the following parameters:
+
+* ClusterName
+* AvailabilityZones
+* DomainName
+* HostedZoneId
+* PullSecret
+
+## OpenShift 3.x Usage
 Using this Quick Start requires credentials for a Red Hat account that includes a subscription for Red Hat OpenShift Enterprise (note that that may require a non-personal email address registration).
 
 The default provisioning in this Quick Start will launch 10 m4.xlarge EC2 instances (3 masters, 3 workers, 3 etcd nodes and 1 ansible configuration server).
